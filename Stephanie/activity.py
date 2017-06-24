@@ -23,13 +23,15 @@ class Activity(Commander):
         return self.calculate(text)
 
     def calculate(self, text):
-        default_text_array = ['stephanie', 'wake', 'up']
+        assistant_name = self.c.config.get("SYSTEM", "assistant_name")
+        asn = assistant_name.lower()
+        default_text_array = [asn, 'wake', 'up']
         command_text = self.c.config.get("SYSTEM", "wake_up_command")
         command_text_array = command_text.lower().split()
         user_text_array = text.split()
         chances = self.get_chances(command_text_array, user_text_array)
         if command_text_array == default_text_array:
-            chances2 = self.get_chances(['stephanie', 'wakeup'], user_text_array)
+            chances2 = self.get_chances([asn, 'wakeup'], user_text_array)
             if chances2 > chances:
                 chances = chances2
         if chances > 0.5:
